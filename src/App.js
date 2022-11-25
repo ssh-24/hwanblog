@@ -10,6 +10,9 @@ function App() {
   ,'저녁먹고 다음날 점심을 고민하는 나, 돼지인걸까?'
   ,'블로그는 원래 생각없이 쓰는거야']);
 
+  let likeCount = useState(0);
+  let commentCount = useState(0);
+
   return (
     <div className="App">
       <div className='black-nav'>
@@ -18,14 +21,23 @@ function App() {
       <div className='post'>
         <h4>{title[0]}</h4>
         <p>{content[0]}</p>
+        <div className='like-comment-zone'>
+          <span>❤</span> {likeCount}  &nbsp;&nbsp; <span>✉</span> {commentCount}
+        </div>
       </div>
       <div className='post'>
         <h4>{title[1]}</h4>
         <p>{content[1]}</p>
+        <div className='like-comment-zone'>
+          <span>❤</span> {likeCount}  &nbsp;&nbsp; <span>✉</span> {commentCount}
+        </div>
       </div>
       <div className='post'>
         <h4>{title[2]}</h4>
         <p>{content[2]}</p>
+        <div className='like-comment-zone'>
+          <span>❤</span> {likeCount}  &nbsp;&nbsp; <span>✉</span> {commentCount}
+        </div>
       </div>
     </div>
   );
