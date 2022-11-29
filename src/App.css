@@ -61,3 +61,11 @@ div {
 .like-comment-zone {
   padding-bottom: 10px;
 }
+
+.rotate-btn {
+  margin-top: 8px;
+  padding: 10px;
+  background: black;
+  color: white;
+  border-radius:12px;
+}
