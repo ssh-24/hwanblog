@@ -62,10 +62,37 @@ div {
   padding-bottom: 10px;
 }
 
+.btn-area {
+  display: flex;
+  flex-direction:row;
+  align-items: center;
+  justify-content: center;
+}
+
 .rotate-btn {
-  margin-top: 8px;
+  width: 70px;
   padding: 10px;
   background: black;
   color: white;
   border-radius:12px;
+  margin: 8px 4px 0px;
+}
+
+.rotate-btn:hover {
+  background: #313235;
+  color: rgb(219, 219, 219);
+}
+
+.sort-btn {
+  width: 70px;
+  padding: 10px;
+  background: black;
+  color: white;
+  border-radius:12px;
+  margin: 8px 4px 0px;
+}
+
+.sort-btn:hover {
+  background: #313235;
+  color: rgb(219, 219, 219);
 }

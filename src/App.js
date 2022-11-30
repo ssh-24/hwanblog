@@ -7,16 +7,16 @@ function App() {
   const nav_title = "Hwan Blog";
   let [title, setTitle] = useState(
     [
-      '오늘 저녁 리뷰'
-      ,'내일 점심 뭐먹지'
-      ,'그냥 뻘글'
+      '1.오늘 저녁 리뷰'
+      ,'2.내일 점심 뭐먹지'
+      ,'3.그냥 뻘글'
     ]
   );
   let [content, setContent] = useState(
     [
-      '고기를 먹었다. 맛있었다. 고기는 최고야'
-      ,'저녁먹고 다음날 점심을 고민하는 나, 돼지인걸까?'
-      ,'블로그는 원래 생각없이 쓰는거야'
+      '1.고기를 먹었다. 맛있었다. 고기는 최고야'
+      ,'2.저녁먹고 다음날 점심을 고민하는 나, 돼지인걸까?'
+      ,'3.블로그는 원래 생각없이 쓰는거야'
     ]
   );
 
@@ -59,12 +59,21 @@ function App() {
         </div>
       </div>
 
-      <button className='rotate-btn' onClick={()=>{
-        setTitle([title[1],title[2],title[0]]);
-        setContent([content[1],content[2],content[0]]);
-        setLike([likeCount[1],likeCount[2],likeCount[0]]);
-        setComment([commentCount[1],commentCount[2],commentCount[0]]);
-      }}>Rotate</button>
+      <div className='btn-area'>
+        <button className='rotate-btn' onClick={()=>{
+          setTitle([title[1],title[2],title[0]]);
+          setContent([content[1],content[2],content[0]]);
+          setLike([likeCount[1],likeCount[2],likeCount[0]]);
+          setComment([commentCount[1],commentCount[2],commentCount[0]]);
+        }}>Rotate</button>
+
+        <button className='sort-btn' onClick={()=>{
+          let cpTitle = [...title.sort()];
+          let cpContent = [...content.sort()];
+          setTitle(cpTitle);
+          setContent(cpContent);
+        }}>Sort</button>
+      </div>
     </div>
   );
 }
