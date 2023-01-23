@@ -58,6 +58,10 @@ div {
   margin: 4px 2px;
 }
 
+.post-area:active {
+  border-radius: 0px;
+}
+
 .like-comment-zone {
   padding-bottom: 10px;
 }
@@ -95,4 +99,13 @@ div {
 .sort-btn:hover {
   background: #313235;
   color: rgb(219, 219, 219);
+}
+
+.detail-area {
+  margin-top: 20px;
+  padding: 20px;
+  background: #eee;
+  text-align: left;
+  border: 1px solid #dedede;
+  border-radius: 0 0 10px 10px;
 }

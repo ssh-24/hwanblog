@@ -4,7 +4,6 @@ import './App.css';
 import { useState } from 'react';
 
 function App() {
-  const nav_title = "Hwan Blog";
   let [title, setTitle] = useState(
     [
       '1.오늘 저녁 리뷰'
@@ -26,38 +25,38 @@ function App() {
   return (
     <div className="App">
       {/* Nav Zone */}
-      <div className='black-nav'>
-        <h4>{nav_title}</h4>
-      </div>
+      <Nav/>
 
       {/* Post Zone */}
-      <div className='post'>
-        <h4>{title[0]}</h4>
-        <p>{content[0]}</p>
-        <div className='like-comment-zone'>
-          <span onClick={()=>{setLike([likeCount[0]+1,likeCount[1],likeCount[2]])}}>❤</span> {likeCount[0]}
-            &nbsp;&nbsp;
-          <span onClick={()=>{setComment([commentCount[0]+1,commentCount[1],commentCount[2]])}}>✉</span> {commentCount[0]}
+      <div className='post-area'>
+        <div className='post'>
+          <h4>{title[0]}</h4>
+          <p>{content[0]}</p>
+          <div className='like-comment-zone'>
+            <span onClick={()=>{setLike([likeCount[0]+1,likeCount[1],likeCount[2]])}}>❤</span> {likeCount[0]}
+              &nbsp;&nbsp;
+            <span onClick={()=>{setComment([commentCount[0]+1,commentCount[1],commentCount[2]])}}>✉</span> {commentCount[0]}
+          </div>
         </div>
-      </div>
 
-      <div className='post'>
-        <h4>{title[1]}</h4>
-        <p>{content[1]}</p>
-        <div className='like-comment-zone'>
-          <span onClick={()=>{setLike([likeCount[0],likeCount[1]+1,likeCount[2]])}}>❤</span> {likeCount[1]}
-            &nbsp;&nbsp;
-          <span onClick={()=>{setComment([commentCount[0],commentCount[1]+1,commentCount[2]])}}>✉</span> {commentCount[1]}
+        <div className='post'>
+          <h4>{title[1]}</h4>
+          <p>{content[1]}</p>
+          <div className='like-comment-zone'>
+            <span onClick={()=>{setLike([likeCount[0],likeCount[1]+1,likeCount[2]])}}>❤</span> {likeCount[1]}
+              &nbsp;&nbsp;
+            <span onClick={()=>{setComment([commentCount[0],commentCount[1]+1,commentCount[2]])}}>✉</span> {commentCount[1]}
+          </div>
         </div>
-      </div>
 
-      <div className='post'>
-        <h4>{title[2]}</h4>
-        <p>{content[2]}</p>
-        <div className='like-comment-zone'>
-          <span onClick={()=>{setLike([likeCount[0],likeCount[1],likeCount[2]+1])}}>❤</span> {likeCount[2]}
-            &nbsp;&nbsp;
-          <span onClick={()=>{setComment([commentCount[0],commentCount[1],commentCount[2]+1])}}>✉</span> {commentCount[2]}
+        <div className='post'>
+          <h4>{title[2]}</h4>
+          <p>{content[2]}</p>
+          <div className='like-comment-zone'>
+            <span onClick={()=>{setLike([likeCount[0],likeCount[1],likeCount[2]+1])}}>❤</span> {likeCount[2]}
+              &nbsp;&nbsp;
+            <span onClick={()=>{setComment([commentCount[0],commentCount[1],commentCount[2]+1])}}>✉</span> {commentCount[2]}
+          </div>
         </div>
       </div>
 
@@ -77,8 +76,35 @@ function App() {
           setContent(cpContent);
         }}>Sort</button>
       </div>
+
+      {/* Detail Zone */}
+      <Modal/>
     </div>
   );
+}
+
+const Nav = () => {
+  const nav_title = "Hwan Blog"
+
+  return (
+    <>
+     <div className='black-nav'>
+        <h4>{nav_title}</h4>
+      </div>
+    </>
+  )
+}
+
+const Modal = () => {
+  return (
+    <>
+      <div className='detail-area'>
+          <h4>제목</h4>
+          <p>날짜</p>
+          <p>상세</p>
+      </div>
+    </>
+  )
 }
 
 export default App;
