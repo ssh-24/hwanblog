@@ -25,10 +25,12 @@ function App() {
 
   return (
     <div className="App">
+      {/* Nav Zone */}
       <div className='black-nav'>
         <h4>{nav_title}</h4>
       </div>
 
+      {/* Post Zone */}
       <div className='post'>
         <h4>{title[0]}</h4>
         <p>{content[0]}</p>
@@ -59,6 +61,7 @@ function App() {
         </div>
       </div>
 
+      {/* Button Zone */}
       <div className='btn-area'>
         <button className='rotate-btn' onClick={()=>{
           setTitle([title[1],title[2],title[0]]);
