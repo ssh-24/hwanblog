@@ -22,6 +22,8 @@ function App() {
   let [likeCount,setLike] = useState([0,0,0]);
   let [commentCount,setComment] = useState([0,0,0]);
 
+  let [modal, setModal] = useState(false);
+
   return (
     <div className="App">
       {/* Nav Zone */}
@@ -30,8 +32,8 @@ function App() {
       {/* Post Zone */}
       <div className='post-area'>
         <div className='post'>
-          <h4>{title[0]}</h4>
-          <p>{content[0]}</p>
+          <h4 onClick={()=>{setModal(!modal)}}>{title[0]}</h4>
+          <p onClick={()=>{setModal(!modal)}}>{content[0]}</p>
           <div className='like-comment-zone'>
             <span onClick={()=>{setLike([likeCount[0]+1,likeCount[1],likeCount[2]])}}>❤</span> {likeCount[0]}
               &nbsp;&nbsp;
@@ -40,8 +42,8 @@ function App() {
         </div>
 
         <div className='post'>
-          <h4>{title[1]}</h4>
-          <p>{content[1]}</p>
+          <h4 onClick={()=>{setModal(!modal)}}>{title[1]}</h4>
+          <p onClick={()=>{setModal(!modal)}}>{content[1]}</p>
           <div className='like-comment-zone'>
             <span onClick={()=>{setLike([likeCount[0],likeCount[1]+1,likeCount[2]])}}>❤</span> {likeCount[1]}
               &nbsp;&nbsp;
@@ -50,8 +52,8 @@ function App() {
         </div>
 
         <div className='post'>
-          <h4>{title[2]}</h4>
-          <p>{content[2]}</p>
+          <h4 onClick={()=>{setModal(!modal)}}>{title[2]}</h4>
+          <p onClick={()=>{setModal(!modal)}}>{content[2]}</p>
           <div className='like-comment-zone'>
             <span onClick={()=>{setLike([likeCount[0],likeCount[1],likeCount[2]+1])}}>❤</span> {likeCount[2]}
               &nbsp;&nbsp;
@@ -78,7 +80,9 @@ function App() {
       </div>
 
       {/* Detail Zone */}
-      <Modal/>
+      {
+        modal === true ? <Modal/> : null
+      }
     </div>
   );
 }
