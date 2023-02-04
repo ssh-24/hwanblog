@@ -18,9 +18,18 @@ function App() {
       ,'3.블로그는 원래 생각없이 쓰는거야'
     ]
   );
-
-  let [likeCount,setLike] = useState([0,0,0]);
-  let [commentCount,setComment] = useState([0,0,0]);
+  // let likes = [0,0,0];
+  // let comments = [0,0,0];
+  let [like,setLike] = useState([
+    {id: 0, count: 0},
+    {id: 1, count: 0},
+    {id: 2, count: 0}
+  ]);
+  let [comment,setComment] = useState([
+    {id: 0, count: 0},
+    {id: 1, count: 0},
+    {id: 2, count: 0}
+  ]);
 
   let [modal, setModal] = useState(false);
 
@@ -31,35 +40,38 @@ function App() {
 
       {/* Post Zone */}
       <div className='post-area'>
-        <div className='post'>
-          <h4 onClick={()=>{setModal(!modal)}}>{title[0]}</h4>
-          <p onClick={()=>{setModal(!modal)}}>{content[0]}</p>
-          <div className='like-comment-zone'>
-            <span onClick={()=>{setLike([likeCount[0]+1,likeCount[1],likeCount[2]])}}>❤</span> {likeCount[0]}
-              &nbsp;&nbsp;
-            <span onClick={()=>{setComment([commentCount[0]+1,commentCount[1],commentCount[2]])}}>✉</span> {commentCount[0]}
-          </div>
-        </div>
+      {
+        title.map((a,i) => {
+          return (
+            <div className='post' key={i}>
+            <h4 onClick={()=>{setModal(!modal)}}>{a}</h4>
+            <p onClick={()=>{setModal(!modal)}}>{content[i]}</p>
+            <div className='like-comment-zone'>
+              <span onClick={()=>{
+                {
+                  like[i].id === i ? like[i].count++ : null
+                }
+                  let result = [...like];
+                  setLike(result);
+                }}>❤</span> {like[i].count}
+                &nbsp;&nbsp;
+              <span onClick={()=>{
+                {
+                  comment[i].id === i ? comment[i].count++ : null
+                }
+                  let result = [...comment];
+                  setComment(result);
+                }}>✉</span> {comment[i].count}
+            </div>
 
-        <div className='post'>
-          <h4 onClick={()=>{setModal(!modal)}}>{title[1]}</h4>
-          <p onClick={()=>{setModal(!modal)}}>{content[1]}</p>
-          <div className='like-comment-zone'>
-            <span onClick={()=>{setLike([likeCount[0],likeCount[1]+1,likeCount[2]])}}>❤</span> {likeCount[1]}
-              &nbsp;&nbsp;
-            <span onClick={()=>{setComment([commentCount[0],commentCount[1]+1,commentCount[2]])}}>✉</span> {commentCount[1]}
+            {/* Detail Zone */}
+            {
+              modal === true ? <Modal/> : null
+            }
           </div>
-        </div>
-
-        <div className='post'>
-          <h4 onClick={()=>{setModal(!modal)}}>{title[2]}</h4>
-          <p onClick={()=>{setModal(!modal)}}>{content[2]}</p>
-          <div className='like-comment-zone'>
-            <span onClick={()=>{setLike([likeCount[0],likeCount[1],likeCount[2]+1])}}>❤</span> {likeCount[2]}
-              &nbsp;&nbsp;
-            <span onClick={()=>{setComment([commentCount[0],commentCount[1],commentCount[2]+1])}}>✉</span> {commentCount[2]}
-          </div>
-        </div>
+          )
+        })
+      }
       </div>
 
       {/* Button Zone */}
@@ -67,22 +79,42 @@ function App() {
         <button className='rotate-btn' onClick={()=>{
           setTitle([title[1],title[2],title[0]]);
           setContent([content[1],content[2],content[0]]);
-          setLike([likeCount[1],likeCount[2],likeCount[0]]);
-          setComment([commentCount[1],commentCount[2],commentCount[0]]);
+          setLike([like[1],like[2],like[0]]);
+          setComment([comment[1],comment[2],comment[0]]);
         }}>Rotate</button>
 
         <button className='sort-btn' onClick={()=>{
           let cpTitle = [...title.sort()];
           let cpContent = [...content.sort()];
+          let cpLike = [...like.sort((a,b) => {
+            if (a.id > b.id) {
+              return 1;
+            }
+            if (a.id < b.id) {
+              return -1;
+            }
+            return 0;
+          })];
+          let cpComment = [...comment.sort((a,b) => {
+            if (a.id > b.id) {
+              return 1;
+            }
+            if (a.id < b.id) {
+              return -1;
+            }
+            return 0;
+          })];
           setTitle(cpTitle);
           setContent(cpContent);
+          setLike(cpLike);
+          setComment(cpComment);
         }}>Sort</button>
       </div>
 
-      {/* Detail Zone */}
+      {/* Detail Zone
       {
         modal === true ? <Modal/> : null
-      }
+      } */}
     </div>
   );
 }
@@ -93,13 +125,24 @@ const Nav = () => {
   return (
     <>
      <div className='black-nav'>
-        <h4>{nav_title}</h4>
+        <h4 onClick={() => {
+          // setLike([
+          //   {id: 0, count: 0},
+          //   {id: 1, count: 0},
+          //   {id: 2, count: 0}
+          // ]);
+          // setComment([
+          //   {id: 0, count: 0},
+          //   {id: 1, count: 0},
+          //   {id: 2, count: 0}
+          // ]);
+        }}>{nav_title}</h4>
       </div>
     </>
   )
 }
 
-const Modal = () => {
+const Modal = (state) => {
   return (
     <>
       <div className='detail-area'>
