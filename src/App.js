@@ -18,8 +18,6 @@ function App() {
       ,'3.블로그는 원래 생각없이 쓰는거야'
     ]
   );
-  // let likes = [0,0,0];
-  // let comments = [0,0,0];
   let [like,setLike] = useState([
     {id: 0, count: 0},
     {id: 1, count: 0},
@@ -31,12 +29,27 @@ function App() {
     {id: 2, count: 0}
   ]);
 
-  let [modal, setModal] = useState(false);
+  let [modal, setModal] = useState([
+    {id: 0, clicked: false},
+    {id: 1, clicked: false},
+    {id: 2, clicked: false}
+  ]);
 
   return (
     <div className="App">
       {/* Nav Zone */}
-      <Nav/>
+      <Nav
+       title={title}
+       setTitle={setTitle}
+       content={content}
+       setContent={setContent}
+       like={like}
+       setLike={setLike} 
+       comment={comment} 
+       setComment={setComment}
+       modal={modal}
+       setModal={setModal}
+      />
 
       {/* Post Zone */}
       <div className='post-area'>
@@ -44,31 +57,36 @@ function App() {
         title.map((a,i) => {
           return (
             <div className='post' key={i}>
-            <h4 onClick={()=>{setModal(!modal)}}>{a}</h4>
-            <p onClick={()=>{setModal(!modal)}}>{content[i]}</p>
-            <div className='like-comment-zone'>
-              <span onClick={()=>{
-                {
-                  like[i].id === i ? like[i].count++ : null
-                }
-                  let result = [...like];
-                  setLike(result);
-                }}>❤</span> {like[i].count}
-                &nbsp;&nbsp;
-              <span onClick={()=>{
-                {
-                  comment[i].id === i ? comment[i].count++ : null
-                }
-                  let result = [...comment];
-                  setComment(result);
-                }}>✉</span> {comment[i].count}
-            </div>
-
+              <h4 onClick={()=>{
+                modal[i].clicked = !modal[i].clicked
+                let result = [...modal];
+                setModal(result)
+                }}>{a}</h4>
+              <p onClick={()=>{
+                modal[i].clicked = !modal[i].clicked
+                let result = [...modal];
+                setModal(result)
+                }}>{content[i]}</p>
+              <div className='like-comment-zone'>
+                <span onClick={()=>{
+                    like[i].count++
+                    let result = [...like];
+                    setLike(result);
+                  }}>❤</span> {like[i].count}
+                  &nbsp;&nbsp;
+                <span onClick={()=>{
+                    comment[i].count++;
+                    let result = [...comment];
+                    setComment(result);
+                  }}>✉</span> {comment[i].count}
+              </div>
             {/* Detail Zone */}
             {
-              modal === true ? <Modal/> : null
+              modal[i].clicked === true ? 
+              <Modal seq={i} title={title} content={content} like={like} comment={comment}/>
+              : null
             }
-          </div>
+            </div>
           )
         })
       }
@@ -81,74 +99,70 @@ function App() {
           setContent([content[1],content[2],content[0]]);
           setLike([like[1],like[2],like[0]]);
           setComment([comment[1],comment[2],comment[0]]);
+          setModal([modal[1],modal[2],modal[0]]);
         }}>Rotate</button>
 
         <button className='sort-btn' onClick={()=>{
           let cpTitle = [...title.sort()];
           let cpContent = [...content.sort()];
-          let cpLike = [...like.sort((a,b) => {
-            if (a.id > b.id) {
-              return 1;
-            }
-            if (a.id < b.id) {
-              return -1;
-            }
-            return 0;
-          })];
-          let cpComment = [...comment.sort((a,b) => {
-            if (a.id > b.id) {
-              return 1;
-            }
-            if (a.id < b.id) {
-              return -1;
-            }
-            return 0;
-          })];
+          let cpLike = [...like.sort((a,b) => a.id - b.id)];
+          let cpComment = [...comment.sort((a,b) => a.id - b.id)];
+          let cpModal = [...modal.sort((a,b) => a.id - b.id)];
           setTitle(cpTitle);
           setContent(cpContent);
           setLike(cpLike);
           setComment(cpComment);
+          setModal(cpModal);
         }}>Sort</button>
       </div>
 
-      {/* Detail Zone
-      {
-        modal === true ? <Modal/> : null
-      } */}
     </div>
   );
 }
 
-const Nav = () => {
+const Nav = (props) => {
   const nav_title = "Hwan Blog"
-
   return (
     <>
      <div className='black-nav'>
         <h4 onClick={() => {
-          // setLike([
-          //   {id: 0, count: 0},
-          //   {id: 1, count: 0},
-          //   {id: 2, count: 0}
-          // ]);
-          // setComment([
-          //   {id: 0, count: 0},
-          //   {id: 1, count: 0},
-          //   {id: 2, count: 0}
-          // ]);
+          alert("(●'◡'●)");
+          let cpTitle = [...props.title.sort()];
+          let cpContent = [...props.content.sort()];
+          props.setTitle(cpTitle);
+          props.setContent(cpContent);
+          props.setLike([
+            {id: 0, count: 0},
+            {id: 1, count: 0},
+            {id: 2, count: 0}
+          ]);
+          props.setComment([
+            {id: 0, count: 0},
+            {id: 1, count: 0},
+            {id: 2, count: 0}
+          ]);
+          props.setModal([
+            {id: 0, clicked: false},
+            {id: 1, clicked: false},
+            {id: 2, clicked: false}
+          ]);
         }}>{nav_title}</h4>
       </div>
     </>
   )
 }
 
-const Modal = (state) => {
+const Modal = (props) => {
   return (
     <>
       <div className='detail-area'>
-          <h4>제목</h4>
-          <p>날짜</p>
-          <p>상세</p>
+          <h4>{props.title[props.seq]}</h4>
+          <p>2023-02-04</p>
+          <p>{props.content[props.seq]}</p>
+          <div>
+            <p>좋아요 {props.like[props.seq].count}</p>
+            <p>댓글 {props.comment[props.seq].count}</p>
+          </div>
       </div>
     </>
   )
