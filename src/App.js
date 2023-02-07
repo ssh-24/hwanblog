@@ -35,6 +35,12 @@ function App() {
     {id: 2, clicked: false}
   ]);
 
+  let [date, setDate] = useState([
+    {id: 0, date: '2023-02-05'},
+    {id: 1, date: '2023-02-06'},
+    {id: 2, date: '2023-02-07'}
+  ]);
+
   return (
     <div className="App">
       {/* Nav Zone */}
@@ -49,6 +55,8 @@ function App() {
        setComment={setComment}
        modal={modal}
        setModal={setModal}
+       date={date}
+       setDate={setDate}
       />
 
       {/* Post Zone */}
@@ -62,11 +70,19 @@ function App() {
                 let result = [...modal];
                 setModal(result)
                 }}>{a}</h4>
+
+              <span onClick={()=>{
+                modal[i].clicked = !modal[i].clicked
+                let result = [...modal];
+                setModal(result)
+                }}>작성일 : {date[i].date}</span>
+
               <p onClick={()=>{
                 modal[i].clicked = !modal[i].clicked
                 let result = [...modal];
                 setModal(result)
                 }}>{content[i]}</p>
+
               <div className='like-comment-zone'>
                 <span onClick={()=>{
                     like[i].count++
@@ -83,9 +99,19 @@ function App() {
             {/* Detail Zone */}
             {
               modal[i].clicked === true ? 
-              <Modal seq={i} title={title} content={content} like={like} comment={comment}/>
+              <Modal seq={i} title={title} content={content} like={like} comment={comment} date={date}/>
               : null
             }
+              <button className='delete-btn' id={"post"+i} onClick={(e)=> {
+                console.log(e.target.id);
+                let selectedIdx = +e.target.id.replace("post",'');
+                let cpTitle = [...title];
+                let cpContent = [...content];
+                cpTitle.splice(selectedIdx,1);
+                cpContent.splice(selectedIdx,1);
+                setTitle(cpTitle);
+                setContent(cpContent);
+              }}>Delete</button>
             </div>
           )
         })
@@ -95,25 +121,44 @@ function App() {
       {/* Button Zone */}
       <div className='btn-area'>
         <button className='rotate-btn' onClick={()=>{
+          if (title.length < 3) { //임시 예외처리
+            return false;
+          }
           setTitle([title[1],title[2],title[0]]);
           setContent([content[1],content[2],content[0]]);
           setLike([like[1],like[2],like[0]]);
           setComment([comment[1],comment[2],comment[0]]);
           setModal([modal[1],modal[2],modal[0]]);
+          setDate([date[1],date[2],date[0]]);
         }}>Rotate</button>
 
         <button className='sort-btn' onClick={()=>{
+          if (title.length < 3) { //임시 예외처리
+            return false;
+          }
           let cpTitle = [...title.sort()];
           let cpContent = [...content.sort()];
           let cpLike = [...like.sort((a,b) => a.id - b.id)];
           let cpComment = [...comment.sort((a,b) => a.id - b.id)];
           let cpModal = [...modal.sort((a,b) => a.id - b.id)];
+          let cpDate = [...date.sort((a,b) => a.id - b.id)];
           setTitle(cpTitle);
           setContent(cpContent);
           setLike(cpLike);
           setComment(cpComment);
           setModal(cpModal);
+          setDate(cpDate);
         }}>Sort</button>
+      </div>
+
+      {/* Input Zone */}
+      <div className='input-area'>
+        <input type="date" id='date-enroll'/>
+        <input type="text"/>
+        <textarea/>
+        <button className='enroll-btn' onClick={() => {
+          console.log("등록");
+        }}>Create</button>
       </div>
 
     </div>
@@ -146,6 +191,11 @@ const Nav = (props) => {
             {id: 1, clicked: false},
             {id: 2, clicked: false}
           ]);
+          props.setDate([
+            {id: 0, date: '2023-02-05'},
+            {id: 1, date: '2023-02-06'},
+            {id: 2, date: '2023-02-07'}
+          ]);
         }}>{nav_title}</h4>
       </div>
     </>
@@ -157,7 +207,7 @@ const Modal = (props) => {
     <>
       <div className='detail-area'>
           <h4>{props.title[props.seq]}</h4>
-          <p>2023-02-04</p>
+          <p>{props.date[props.seq].date}</p>
           <p>{props.content[props.seq]}</p>
           <div>
             <p>좋아요 {props.like[props.seq].count}</p>
