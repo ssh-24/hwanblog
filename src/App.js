@@ -41,6 +41,10 @@ function App() {
     {id: 2, date: '2023-02-07'}
   ]);
 
+  let newTitle = '';
+  let newContent = '';
+  let dateStr = '';
+
   return (
     <div className="App">
       {/* Nav Zone */}
@@ -121,21 +125,52 @@ function App() {
       {/* Button Zone */}
       <div className='btn-area'>
         <button className='rotate-btn' onClick={()=>{
-          if (title.length < 3) { //임시 예외처리
-            return false;
+          let seq = title.length
+
+          let rttTitle = [];
+          let rttContent = [];
+          let rttLike = [];
+          let rttComment = [];
+          let rttModal = [];
+          let rttDate = [];
+
+          for (let i = 0; i < seq; i++) {
+            if(i === seq-1) {
+              rttTitle.push(title[0]);
+              rttContent.push(content[0]);
+              rttLike.push(like[0]);
+              rttComment.push(comment[0]);
+              rttModal.push(modal[0]);
+              rttDate.push(date[0]);
+            }
+            else {
+            rttTitle.push(title[i+1]);
+            rttContent.push(content[i+1]);
+            rttLike.push(like[i+1]);
+            rttComment.push(comment[i+1]);
+            rttModal.push(modal[i+1]);
+            rttDate.push(date[i+1]);
+            }
           }
-          setTitle([title[1],title[2],title[0]]);
-          setContent([content[1],content[2],content[0]]);
-          setLike([like[1],like[2],like[0]]);
-          setComment([comment[1],comment[2],comment[0]]);
-          setModal([modal[1],modal[2],modal[0]]);
-          setDate([date[1],date[2],date[0]]);
+
+          console.log(rttTitle);
+          console.log(rttContent);
+          console.log(rttLike);
+          console.log(rttComment);
+          console.log(rttModal);
+          console.log(rttDate);
+          
+          setTitle(rttTitle);
+          setContent(rttContent);
+          setLike(rttLike);
+          setComment(rttComment);
+          setModal(rttModal);
+          setDate(rttDate);
         }}>Rotate</button>
 
         <button className='sort-btn' onClick={()=>{
-          if (title.length < 3) { //임시 예외처리
-            return false;
-          }
+          let seq = title.length
+
           let cpTitle = [...title.sort()];
           let cpContent = [...content.sort()];
           let cpLike = [...like.sort((a,b) => a.id - b.id)];
@@ -153,11 +188,74 @@ function App() {
 
       {/* Input Zone */}
       <div className='input-area'>
-        <input type="date" id='date-enroll'/>
-        <input type="text"/>
-        <textarea/>
+        <input type="date" id='date-enroll' onBlur={(e)=>{
+          console.log("작성일 : ",e.target.value);
+          dateStr = e.target.value;
+        }}/>
+        <input type="text" id='title-enroll' onBlur={(e)=>{
+          console.log("글제목 : ",e.target.value);
+          newTitle = e.target.value;
+        }}/>
+        <textarea id='content-enroll' onBlur={(e)=>{
+          console.log("내용 : ",e.target.value);
+          newContent = e.target.value;
+        }}/>
         <button className='enroll-btn' onClick={() => {
-          console.log("등록");
+          if (!!(newTitle === '' || newContent === '' || dateStr === '')) {
+            //아무 입력 없을 시 예외처리
+            alert("입력사항을 모두 작성해주세요")
+            return false;
+          }
+
+          let seq = title.length
+          
+          let newLike = {
+            id : seq,
+            count : 0
+          }
+          let newComment = {
+            id : seq,
+            count : 0
+          }
+          let newModal = {
+            id : seq,
+            clicked: false
+          }
+          let newDate = {
+            id : seq,
+            date : dateStr
+          }
+ 
+          let cpTitle = [...title];
+          let cpContent = [...content];
+          let cpDate = [...date];
+          let cpModal = [...modal];
+          let cpLike = [...like];
+          let cpComment = [...comment];
+
+          cpTitle.push(newTitle);
+          cpContent.push(newContent);
+          cpDate.push(newDate);
+          cpModal.push(newModal);
+          cpLike.push(newLike);
+          cpComment.push(newComment);
+
+
+          console.log(cpTitle);
+          console.log(cpContent);
+          console.log(cpDate);
+          console.log(cpModal);
+          console.log(cpLike);
+          console.log(cpComment);
+
+          setTitle(cpTitle);
+          setContent(cpContent);
+          setDate(cpDate);
+          setModal(cpModal);
+          setLike(cpLike);
+          setComment(cpComment);
+
+          console.log("");
         }}>Create</button>
       </div>
 
