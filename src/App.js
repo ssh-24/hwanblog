@@ -6,16 +6,16 @@ import { useState } from 'react';
 function App() {
   let [title, setTitle] = useState(
     [
-      '1.오늘 저녁 리뷰'
-      ,'2.내일 점심 뭐먹지'
-      ,'3.그냥 뻘글'
+      '오늘 저녁 리뷰'
+      ,'내일 점심 뭐먹지'
+      ,'그냥 뻘글'
     ]
   );
   let [content, setContent] = useState(
     [
-      '1.고기를 먹었다. 맛있었다. 고기는 최고야'
-      ,'2.저녁먹고 다음날 점심을 고민하는 나, 돼지인걸까?'
-      ,'3.블로그는 원래 생각없이 쓰는거야'
+      '고기를 먹었다. 맛있었다. 고기는 최고야'
+      ,'저녁먹고 다음날 점심을 고민하는 나, 돼지인걸까?'
+      ,'블로그는 원래 생각없이 쓰는거야'
     ]
   );
   let [like,setLike] = useState([
@@ -48,71 +48,56 @@ function App() {
   return (
     <div className="App">
       {/* Nav Zone */}
-      <Nav
-       title={title}
-       setTitle={setTitle}
-       content={content}
-       setContent={setContent}
-       like={like}
-       setLike={setLike} 
-       comment={comment} 
-       setComment={setComment}
-       modal={modal}
-       setModal={setModal}
-       date={date}
-       setDate={setDate}
-      />
+      <Nav/>
 
       {/* Post Zone */}
       <div className='post-area'>
       {
         title.map((a,i) => {
           return (
-            <div className='post' key={i}>
-              <h4 onClick={()=>{
-                modal[i].clicked = !modal[i].clicked
-                let result = [...modal];
-                setModal(result)
-                }}>{a}</h4>
-
-              <span onClick={()=>{
-                modal[i].clicked = !modal[i].clicked
-                let result = [...modal];
-                setModal(result)
-                }}>작성일 : {date[i].date}</span>
-
-              <p onClick={()=>{
-                modal[i].clicked = !modal[i].clicked
-                let result = [...modal];
-                setModal(result)
-                }}>{content[i]}</p>
-
+            <div className='post' key={i} onClick={(e)=>{
+              if (true) {
+                console.log(e.target.className);
+              }
+              modal[i].clicked = !modal[i].clicked
+              let result = [...modal];
+              setModal(result)
+            }}>
+              {/* 제목 */}
+              <h4>{a}</h4>
+              {/* 작성일 */}
+              <span className='w-date'>{date[i].date}</span>
+              {/* 본문 */}
+              <p>{content[i]}</p>
+              {/* 좋아요/댓글 */}
               <div className='like-comment-zone'>
-                <span onClick={()=>{
+                <span onClick={(e)=>{
+                    e.stopPropagation();
                     like[i].count++
                     let result = [...like];
                     setLike(result);
-                  }}>❤</span> {like[i].count}
-                  &nbsp;&nbsp;
-                <span onClick={()=>{
+                }}>❤</span> {like[i].count}
+                &nbsp;&nbsp;&nbsp;
+                <span onClick={(e)=>{
+                    e.stopPropagation();
                     comment[i].count++;
                     let result = [...comment];
                     setComment(result);
-                  }}>✉</span> {comment[i].count}
+                }}>✉</span> {comment[i].count}
               </div>
-            {/* Detail Zone */}
+            {/* 모달 */}
             {
               modal[i].clicked === true ? 
               <Modal seq={i} title={title} content={content} like={like} comment={comment} date={date}/>
               : null
             }
-              <button className='delete-btn' id={"post"+i} onClick={(e)=> {
-                console.log(e.target.id);
-                let selectedIdx = +e.target.id.replace("post",'');
+            {/* 삭제버튼 */}
+            <button className='delete-btn' onClick={(e)=> {
+                e.stopPropagation();
                 let cpTitle = [...title];
                 let cpContent = [...content];
-                cpTitle.splice(selectedIdx,1);
-                cpContent.splice(selectedIdx,1);
+                cpTitle.splice(i,1);
+                cpContent.splice(i,1);
                 setTitle(cpTitle);
                 setContent(cpContent);
               }}>Delete</button>
@@ -153,13 +138,6 @@ function App() {
             }
           }
 
-          console.log(rttTitle);
-          console.log(rttContent);
-          console.log(rttLike);
-          console.log(rttComment);
-          console.log(rttModal);
-          console.log(rttDate);
-          
           setTitle(rttTitle);
           setContent(rttContent);
           setLike(rttLike);
@@ -188,21 +166,19 @@ function App() {
 
       {/* Input Zone */}
       <div className='input-area'>
+        <h3>글쓰기</h3>
         <input type="date" id='date-enroll' onBlur={(e)=>{
-          console.log("작성일 : ",e.target.value);
           dateStr = e.target.value;
         }}/>
-        <input type="text" id='title-enroll' onBlur={(e)=>{
-          console.log("글제목 : ",e.target.value);
+        <input type="text" id='title-enroll' placeholder='글 제목' onBlur={(e)=>{
           newTitle = e.target.value;
         }}/>
-        <textarea id='content-enroll' onBlur={(e)=>{
-          console.log("내용 : ",e.target.value);
+        <textarea id='content-enroll' placeholder='내용' onBlur={(e)=>{
           newContent = e.target.value;
         }}/>
         <button className='enroll-btn' onClick={() => {
           if (!!(newTitle === '' || newContent === '' || dateStr === '')) {
-            //아무 입력 없을 시 예외처리
+            //입력 없을 시 예외처리
             alert("입력사항을 모두 작성해주세요")
             return false;
           }
@@ -240,22 +216,12 @@ function App() {
           cpLike.push(newLike);
           cpComment.push(newComment);
 
-
-          console.log(cpTitle);
-          console.log(cpContent);
-          console.log(cpDate);
-          console.log(cpModal);
-          console.log(cpLike);
-          console.log(cpComment);
-
           setTitle(cpTitle);
           setContent(cpContent);
           setDate(cpDate);
           setModal(cpModal);
           setLike(cpLike);
           setComment(cpComment);
-
-          console.log("");
         }}>Create</button>
       </div>
 
@@ -263,37 +229,13 @@ function App() {
   );
 }
 
-const Nav = (props) => {
+const Nav = () => {
   const nav_title = "Hwan Blog"
   return (
     <>
      <div className='black-nav'>
         <h4 onClick={() => {
           alert("(●'◡'●)");
-          let cpTitle = [...props.title.sort()];
-          let cpContent = [...props.content.sort()];
-          props.setTitle(cpTitle);
-          props.setContent(cpContent);
-          props.setLike([
-            {id: 0, count: 0},
-            {id: 1, count: 0},
-            {id: 2, count: 0}
-          ]);
-          props.setComment([
-            {id: 0, count: 0},
-            {id: 1, count: 0},
-            {id: 2, count: 0}
-          ]);
-          props.setModal([
-            {id: 0, clicked: false},
-            {id: 1, clicked: false},
-            {id: 2, clicked: false}
-          ]);
-          props.setDate([
-            {id: 0, date: '2023-02-05'},
-            {id: 1, date: '2023-02-06'},
-            {id: 2, date: '2023-02-07'}
-          ]);
         }}>{nav_title}</h4>
       </div>
     </>
