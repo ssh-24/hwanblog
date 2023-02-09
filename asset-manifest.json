@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/hwanblog/static/css/main.8a13289d.css",
+    "main.js": "/hwanblog/static/js/main.58cecc59.js",
+    "static/js/787.e48db260.chunk.js": "/hwanblog/static/js/787.e48db260.chunk.js",
+    "index.html": "/hwanblog/index.html",
+    "main.8a13289d.css.map": "/hwanblog/static/css/main.8a13289d.css.map",
+    "main.58cecc59.js.map": "/hwanblog/static/js/main.58cecc59.js.map",
+    "787.e48db260.chunk.js.map": "/hwanblog/static/js/787.e48db260.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8a13289d.css",
+    "static/js/main.58cecc59.js"
+  ]
+}
