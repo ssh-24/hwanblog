@@ -56,9 +56,6 @@ function App() {
         title.map((a,i) => {
           return (
             <div className='post' key={i} onClick={(e)=>{
-              if (true) {
-                console.log(e.target.className);
-              }
               modal[i].clicked = !modal[i].clicked
               let result = [...modal];
               setModal(result)
